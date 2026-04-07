@@ -20,17 +20,42 @@ export default function Calendar({
 
   const dates = [];
 
-  // Empty spaces before month starts
+  // Empty spaces
   for (let i = 0; i < firstDay; i++) {
     dates.push("");
   }
 
-  // Actual days
+  // Dates
   for (let i = 1; i <= totalDays; i++) {
     dates.push(i);
   }
 
-  // Handle click
+  // 🎯 DYNAMIC HOLIDAYS FUNCTION
+  const getHolidays = (month, year) => {
+    const holidays = {};
+
+    // January
+    if (month === 0) {
+      holidays[1] = { emoji: "🎉", name: "New Year" };
+      holidays[26] = { emoji: "🇮🇳", name: "Republic Day" };
+    }
+
+    // August
+    if (month === 7) {
+      holidays[15] = { emoji: "🇮🇳", name: "Independence Day" };
+    }
+
+    // Example Diwali (approx)
+    if (month === 9 || month === 10) {
+      holidays[24] = { emoji: "🪔", name: "Diwali" };
+    }
+
+    return holidays;
+  };
+
+  const holidays = getHolidays(month, year);
+
+  // Click logic
   const handleClick = (day) => {
     if (!startDate || (startDate && endDate)) {
       setStartDate(day);
@@ -53,7 +78,9 @@ export default function Calendar({
       {/* Days */}
       <div className="grid grid-cols-7 text-xs text-gray-400 mb-3">
         {days.map((d) => (
-          <div key={d} className="text-center">{d}</div>
+          <div key={d} className="text-center">
+            {d}
+          </div>
         ))}
       </div>
 
@@ -78,8 +105,9 @@ export default function Calendar({
               onMouseEnter={() => setHovered(day)}
               onMouseLeave={() => setHovered(null)}
               onClick={() => day && handleClick(day)}
-              className={`h-12 flex items-center justify-center rounded-xl cursor-pointer
-              transition-all duration-300 font-medium
+              title={holidays[day]?.name || ""}
+              className={`h-14 flex items-center justify-center rounded-xl cursor-pointer
+              transition-all duration-300 font-medium relative
 
               ${isStart ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white scale-110 shadow-lg" : ""}
               ${isEnd ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white scale-110 shadow-lg" : ""}
@@ -88,7 +116,19 @@ export default function Calendar({
               ${day ? "hover:bg-blue-300 dark:hover:bg-blue-700 hover:scale-105" : ""}
               `}
             >
-              {day}
+              {day && (
+                <div className="flex flex-col items-center">
+                  {/* Date */}
+                  <span>{day}</span>
+
+                  {/* 🎯 Holiday marker */}
+                  {holidays[day] && (
+                    <span className="text-[10px] mt-1">
+                      {holidays[day].emoji}
+                    </span>
+                  )}
+                </div>
+              )}
             </motion.div>
           );
         })}
