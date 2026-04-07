@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+.wave {
+  clip-path: polygon(0 60%, 45% 100%, 100% 60%, 100% 100%, 0 100%);
+}
+
+.blue-shape {
+  clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+html.dark {
+  background-color: #0f172a;
+}
