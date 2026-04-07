@@ -26,13 +26,9 @@ export default function App() {
   }, [note]);
 
   // 🌙 Dark mode
-  useEffect(() => {
-    if (dark) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [dark]);
+ useEffect(() => {
+  document.documentElement.className = dark ? "dark" : "";
+}, [dark]);
 
   // 📅 Month controls
   const nextMonth = () => {
@@ -46,18 +42,23 @@ export default function App() {
   const monthName = date.toLocaleString("default", { month: "long" });
 
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center p-6 ${
-        theme === "blue"
-          ? "bg-gradient-to-br from-blue-200 to-indigo-400"
-          : "bg-gradient-to-br from-orange-300 to-pink-400"
-      } dark:bg-gradient-to-br dark:from-gray-900 dark:to-gray-800`}
-    >
+   <div
+  className={`min-h-screen flex items-center justify-center p-6 transition-all duration-500
+  ${
+    theme === "blue"
+      ? "bg-gradient-to-br from-blue-300 to-indigo-500"
+      : "bg-gradient-to-br from-orange-400 to-pink-500"
+  }
+  ${dark ? "bg-gray-900" : ""}
+`}
+>
       <motion.div
         initial={{ opacity: 0, y: 40, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.4 }}
-        className="w-full max-w-5xl bg-white/70 dark:bg-gray-900/80 backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,0.25)] rounded-3xl overflow-hidden border border-white/40 dark:border-gray-700"
+        className={`w-full max-w-5xl backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,0.25)] rounded-3xl overflow-hidden border transition-all duration-300
+${dark ? "bg-gray-900 text-white border-gray-700" : "bg-white/70 border-white/40"}
+`}
       >
         {/* Header */}
         <Header month={monthName} year={date.getFullYear()} />
@@ -74,7 +75,7 @@ export default function App() {
               onClick={() =>
                 setTheme((prev) => (prev === "blue" ? "sunset" : "blue"))
               }
-              className="px-3 py-1 rounded-lg bg-gray-200 dark:bg-gray-700"
+              className="px-3 py-1 rounded-lg bg-white/70 dark:bg-gray-700 text-black dark:text-white"
             >
               {theme === "blue" ? "🌊" : "🌅"}
             </button>
