@@ -32,26 +32,64 @@ export default function Calendar({
 
   // 🎯 DYNAMIC HOLIDAYS FUNCTION
   const getHolidays = (month, year) => {
-    const holidays = {};
+  const holidays = {};
 
-    // January
-    if (month === 0) {
+  switch (month) {
+    case 0: // January
       holidays[1] = { emoji: "🎉", name: "New Year" };
       holidays[26] = { emoji: "🇮🇳", name: "Republic Day" };
-    }
+      break;
 
-    // August
-    if (month === 7) {
+    case 1: // February
+      holidays[14] = { emoji: "❤️", name: "Valentine's Day" };
+      break;
+
+    case 2: // March
+      holidays[8] = { emoji: "🌸", name: "Women's Day" };
+      break;
+
+    case 3: // April
+      holidays[22] = { emoji: "🌍", name: "Earth Day" };
+      break;
+
+    case 4: // May
+      holidays[1] = { emoji: "🛠️", name: "Labour Day" };
+      break;
+
+    case 5: // June
+      holidays[21] = { emoji: "🧘", name: "Yoga Day" };
+      break;
+
+    case 7: // August
       holidays[15] = { emoji: "🇮🇳", name: "Independence Day" };
-    }
+      break;
 
-    // Example Diwali (approx)
-    if (month === 9 || month === 10) {
-      holidays[24] = { emoji: "🪔", name: "Diwali" };
-    }
+    case 8: // September (Navratri approx)
+      holidays[26] = { emoji: "💃", name: "Navratri" };
+      break;
 
-    return holidays;
-  };
+    case 9: // October
+      holidays[2] = { emoji: "🕊️", name: "Gandhi Jayanti" };
+
+      // Navratri (alternative year case)
+      holidays[10] = { emoji: "💃", name: "Navratri" };
+      break;
+
+    case 10: // November (Diwali approx)
+      holidays[12] = { emoji: "🪔", name: "Diwali" };
+      holidays[14] = { emoji: "🧒", name: "Children's Day" };
+      break;
+
+    case 11: // December
+      holidays[25] = { emoji: "🎄", name: "Christmas" };
+      break;
+
+    default:
+      break;
+  }
+
+  return holidays;
+};
 
   const holidays = getHolidays(month, year);
 
